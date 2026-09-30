@@ -2,35 +2,42 @@
 
 ## Objective
 
-Configure the WAN and LAN interfaces on pfSense so the firewall can connect the home internet connection to the cybersecurity lab network.
+Document the WAN and LAN configuration used to connect the upstream home network to the isolated cybersecurity lab through pfSense.
 
 ## Network Design
 
-Internet / Home Router  
-↓  
-pfSense WAN  
-↓  
-pfSense LAN  
-↓  
-Network Switch  
-↓  
-Lab Computers / Servers / Wireless Access Point
+```text
+Internet / Home Router
+        |
+        v
+    pfSense WAN
+        |
+        v
+    pfSense LAN
+        |
+        v
+    Network Switch
+        |
+        +-- Lab Computers
+        +-- Servers
+        +-- Wireless Access Point
+```
 
 ## WAN Interface
 
-The WAN interface connects pfSense to the existing home network / internet router.
+The WAN interface connects pfSense to the existing home network and upstream internet connection.
 
 ### WAN Tasks Completed
 
 - Connected the WAN USB Ethernet adapter
 - Identified the WAN interface in pfSense
 - Assigned the WAN interface
-- Verified that the WAN interface received network connectivity
+- Verified that the WAN interface received connectivity
 - Confirmed pfSense could communicate with the upstream router
 
 ## LAN Interface
 
-The LAN interface connects pfSense to the cybersecurity home lab network.
+The LAN interface connects pfSense to the cybersecurity home-lab network.
 
 ### LAN Tasks Completed
 
@@ -44,28 +51,29 @@ The LAN interface connects pfSense to the cybersecurity home lab network.
 
 The two Ethernet adapters were used for separate purposes:
 
-- WAN adapter → Internet / upstream router
-- LAN adapter → Home lab switch
+- **WAN adapter** → upstream home network / internet router
+- **LAN adapter** → cybersecurity lab switch
 
-Keeping WAN and LAN on separate interfaces allows pfSense to control and inspect traffic passing between the internet and the lab network.
+Keeping WAN and LAN on separate interfaces allows pfSense to control traffic between the upstream network and the lab environment.
 
 ## Verification
 
-After configuring the interfaces, I checked the pfSense console to confirm that:
+After configuring the interfaces, I verified that:
 
 - WAN was assigned correctly
 - LAN was assigned correctly
 - Both interfaces were active
-- The firewall remained operational after reboot
+- pfSense remained operational after reboot
+- The lab side was ready for connected systems and services
 
-## Troubleshooting
+## Troubleshooting Performed
 
-During setup, I verified the physical connections and interface assignments when the LAN side did not initially show connectivity.
+During setup, I verified physical connections and interface assignments when the LAN side did not initially show connectivity.
 
-This included:
+Troubleshooting included:
 
 - Checking USB Ethernet adapters
-- Confirming cables were connected
+- Confirming Ethernet cables were connected
 - Reviewing pfSense interface assignments
 - Rebooting pfSense
 - Verifying interface status from the console
@@ -73,20 +81,23 @@ This included:
 ## Skills Practiced
 
 - WAN and LAN configuration
-- Interface assignment
+- Network interface assignment
+- TCP/IP networking
 - Network troubleshooting
 - Firewall deployment
-- TCP/IP networking
-- Physical network connectivity
+- Physical network verification
 - pfSense administration
+
+## Key Takeaway
+
+Separating WAN and LAN onto dedicated interfaces created the foundation for a segmented lab network where pfSense can control and inspect traffic between the upstream home network and cybersecurity lab devices.
 
 ## Next Steps
 
-Future work will include:
+Future work includes:
 
-- DHCP configuration
-- Firewall rules
-- VLAN configuration
-- Network segmentation
-- Wireless access point integration
-- Traffic monitoring
+- Expanding firewall rules
+- Adding additional network segmentation
+- Integrating virtualized lab systems
+- Adding monitoring and logging
+- Documenting additional pfSense testing
