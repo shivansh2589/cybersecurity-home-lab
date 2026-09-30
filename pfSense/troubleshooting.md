@@ -2,7 +2,9 @@
 
 ## Objective
 
-Document common issues encountered while installing and configuring pfSense in my cybersecurity home lab.
+Document common issues encountered while installing and configuring pfSense in my cybersecurity home lab, along with the troubleshooting steps used and the lessons learned.
+
+---
 
 ## Issue 1: WAN or LAN Interface Not Detected
 
@@ -68,67 +70,100 @@ Physical connectivity and interface assignment should be checked before changing
 
 ### Useful Tests
 
-**Issue 4: USB Ethernet Adapter Problems**
+- Ping the upstream gateway
+- Ping a public IP address
+- Test DNS resolution
+- Review pfSense firewall logs
+- Check gateway status
+- Verify NAT configuration
 
-**Symptoms**
+### Lesson Learned
 
-Adapter disappears after reboot
-Interface names change
-WAN and LAN become reversed
+Internet-connectivity problems should be checked in a logical order: WAN status, gateway, firewall rules, NAT, and DNS.
 
-**Troubleshooting Steps**
+---
 
-Identified each USB Ethernet adapter before assignment
-Kept WAN and LAN adapters in consistent USB ports
-Verified interface names after reboot
-Reassigned interfaces when necessary
+## Issue 4: USB Ethernet Adapter Problems
 
-**Lesson Learned**
+### Symptoms
 
-Keeping the same physical USB ports for WAN and LAN helps avoid confusion.
+- Adapter disappears after reboot
+- Interface names change
+- WAN and LAN become reversed
 
-**Issue 5: pfSense Appears Frozen or Unresponsive**
-Symptoms
-Console does not appear to respond
-Display remains on the same screen
-Network connectivity stops responding
-Troubleshooting Steps
-Waited to confirm whether pfSense was still processing
-Checked network activity
-Used the pfSense console menu when available
-Restarted the system when necessary
-Verified interfaces again after reboot
-Troubleshooting Approach
+### Troubleshooting Steps
+
+- Identified each USB Ethernet adapter before assignment
+- Kept WAN and LAN adapters in consistent USB ports
+- Verified interface names after reboot
+- Reassigned interfaces when necessary
+
+### Lesson Learned
+
+Keeping the same physical USB ports for WAN and LAN helps avoid confusion and reduces interface-assignment problems.
+
+---
+
+## Issue 5: pfSense Appears Frozen or Unresponsive
+
+### Symptoms
+
+- Console does not appear to respond
+- Display remains on the same screen
+- Network connectivity stops responding
+
+### Troubleshooting Steps
+
+- Waited to confirm whether pfSense was still processing
+- Checked network activity
+- Used the pfSense console menu when available
+- Restarted the system when necessary
+- Verified interfaces again after reboot
+
+### Lesson Learned
+
+When pfSense appears unresponsive, confirm whether the issue is only the display, the network connection, or the entire firewall before restarting the system.
+
+---
+
+## Troubleshooting Approach
 
 When troubleshooting pfSense, I follow this order:
 
-Check power and physical connections
-Check Ethernet cables
-Check WAN and LAN adapter assignments
-Check IP addresses
-Check gateway status
-Check DHCP
-Check firewall rules
-Check NAT
-Review logs
-Test connectivity
-**Useful pfSense Tools**
-Interface Status
-Gateway Status
-System Logs
-Firewall Logs
-Diagnostics > Ping
-Diagnostics > Traceroute
-Diagnostics > Packet Capture
-**Skills Practiced**
-Network troubleshooting
-Interface troubleshooting
-TCP/IP diagnostics
-Firewall troubleshooting
-Gateway troubleshooting
-DNS troubleshooting
-Physical network diagnostics
-pfSense administration
-Key Takeaway
+1. Check power and physical connections
+2. Check Ethernet cables
+3. Verify WAN and LAN adapter assignments
+4. Check IP addresses
+5. Check gateway status
+6. Check DHCP
+7. Review firewall rules
+8. Check NAT
+9. Review logs
+10. Test connectivity
+
+This helps isolate simple physical or interface problems before moving into more advanced firewall, NAT, or DNS troubleshooting.
+
+## Useful pfSense Tools
+
+- Interface Status
+- Gateway Status
+- System Logs
+- Firewall Logs
+- Diagnostics > Ping
+- Diagnostics > Traceroute
+- Diagnostics > Packet Capture
+
+## Skills Practiced
+
+- Network troubleshooting
+- Interface troubleshooting
+- TCP/IP diagnostics
+- Firewall troubleshooting
+- Gateway troubleshooting
+- DNS troubleshooting
+- Physical network diagnostics
+- pfSense administration
+
+## Key Takeaway
 
 Troubleshooting should begin with basic physical connectivity and interface configuration before moving to firewall rules, NAT, DNS, and other advanced settings.
