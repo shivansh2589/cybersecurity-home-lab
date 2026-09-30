@@ -2,125 +2,155 @@
 
 ## Objective
 
-Configure and document firewall rules in pfSense to control traffic between the home lab network and other networks.
+Document the firewall rules used in my cybersecurity home lab to control traffic between the isolated lab network, the upstream home network, and the internet.
 
 ## Purpose
 
-Firewall rules determine what traffic is allowed or blocked.
+pfSense is used as the main firewall for the lab.
 
-In my home lab, pfSense is used to control traffic between:
+The firewall rules are designed to:
 
-- WAN
-- LAN
-- Lab devices
-- Future VLANs
-- Wireless devices
+- Protect the home network from lab traffic
+- Allow lab devices to reach the internet
+- Control which services are permitted
+- Support troubleshooting and testing
+- Provide a foundation for future segmentation and VLAN work
 
-## Default Behavior
+## Rule Processing
 
-pfSense uses firewall rules to decide whether network traffic is permitted.
-
-Rules are evaluated from top to bottom.
+pfSense evaluates firewall rules from top to bottom.
 
 The first matching rule is applied.
 
-## LAN Rules
+Because of this, rule order is important.
 
-The LAN interface is used by devices inside the cybersecurity home lab.
+A more specific block or allow rule must be placed above broader rules when required.
 
-Typical LAN rules may include:
+## Main Lab Isolation Rule
 
-- Allow LAN devices to access the internet
-- Allow DNS traffic
-- Allow DHCP traffic
-- Allow management access to pfSense
-- Block unnecessary traffic
+One of the key rules in the lab blocks devices on the cybersecurity lab network from accessing the primary home network.
 
-## WAN Rules
+### Purpose
 
-The WAN interface faces the upstream network.
+The goal is to keep lab activity isolated from normal household devices while still allowing the lab to access the internet.
 
-For security, unsolicited inbound traffic should normally remain blocked unless there is a specific reason to allow it.
+### Rule Logic
 
-## Example Rule Structure
+- **Interface:** LAN
+- **Source:** Lab network
+- **Destination:** Home network
+- **Action:** Block
+- **Description:** `BLOCK LAB TO HOME NETWORK`
 
-A firewall rule can include:
+This rule is placed above the general LAN allow rule.
 
-- Action: Pass or Block
-- Interface
-- Protocol
-- Source
-- Destination
-- Source Port
-- Destination Port
-- Description
+## Internet Access Rule
 
-## Example Lab Rule
+Lab devices are allowed to access the internet through pfSense.
 
-Example:
+This supports:
 
-Action: Pass
+- Software updates
+- Security-tool downloads
+- Cloud services
+- DNS resolution
+- Web access
+- Lab testing
 
-Interface: LAN
+The general LAN allow rule remains below the isolation rule so that the home-network block is evaluated first.
 
-Protocol: TCP/UDP
+## Traffic Tested
 
-Source: LAN net
+After configuring the firewall rules, I tested expected behavior from multiple lab devices.
 
-Destination: Any
+Testing included:
 
-Description: Allow LAN devices outbound access
+- Internet connectivity
+- DNS resolution
+- ICMP connectivity
+- SSH access
+- Access to lab systems
+- Attempts to reach the upstream home network
 
-## Security Principles Practiced
+## Expected Results
 
-- Least privilege
-- Default deny
-- Network segmentation
-- Access control
-- Traffic filtering
-- Rule documentation
+The intended behavior is:
 
-## Testing Firewall Rules
+- Lab devices can access the internet
+- Lab devices can communicate with approved lab systems
+- Lab devices cannot freely access the upstream home network
+- Specific exceptions can be added when needed for testing
 
-After creating or modifying rules, I verify that the expected traffic is allowed or blocked.
+## Firewall Rule Testing
 
-Testing can include:
+When creating or modifying rules, I verify both allowed and blocked traffic.
+
+Testing methods include:
 
 - Ping
-- Web browsing
 - DNS queries
-- Port testing
-- pfSense firewall logs
-- Packet capture
-
-## Troubleshooting
-
-If traffic does not work as expected, I check:
-
-- Rule order
-- Interface selection
-- Source and destination
-- Protocol
-- Port numbers
+- Web browsing
+- SSH
 - Firewall logs
-- NAT configuration
+- pfSense diagnostics
+- Packet capture when needed
+
+## Troubleshooting Firewall Rules
+
+If traffic does not behave as expected, I check:
+
+1. Rule order
+2. Interface selection
+3. Source
+4. Destination
+5. Protocol
+6. Port numbers
+7. Gateway
+8. NAT configuration
+9. Firewall logs
+10. Device-side firewall settings
+
+## Security Concepts Practiced
+
+This work reinforces:
+
+- Network segmentation
+- Least privilege
+- Access control
+- Traffic filtering
+- Rule ordering
+- Default-deny thinking
+- Firewall logging
+- Change verification
 
 ## Skills Practiced
 
+- pfSense firewall administration
 - Firewall rule creation
-- Access control
-- Network security
-- Rule troubleshooting
-- Traffic analysis
-- pfSense administration
+- Rule-order troubleshooting
+- Network segmentation
+- Access-control testing
+- TCP/IP troubleshooting
+- ICMP and SSH testing
+- Security validation
+
+## Evidence
+
+A screenshot of the pfSense LAN rules is also included in my main cybersecurity portfolio.
+
+It shows the lab-to-home block rule placed above the general LAN allow rule.
 
 ## Next Steps
 
 Future firewall work may include:
 
 - VLAN-specific rules
-- Guest network isolation
-- Blocking unnecessary ports
-- Logging suspicious traffic
+- Guest-network isolation
+- Additional logging
 - Restricting management access
-- Testing inter-VLAN communication
+- Inter-VLAN communication testing
+- More granular service-based rules
+
+## Key Takeaway
+
+The most important part of this firewall configuration is that the cybersecurity lab is isolated from the primary home network while retaining the connectivity needed for hands-on security practice.
