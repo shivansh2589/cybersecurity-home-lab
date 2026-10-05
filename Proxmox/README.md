@@ -205,6 +205,8 @@ Wazuh was then used to validate key Windows Security events.
 | 4740 | User account locked out |
 | 4767 | User account unlocked |
 
+Events `4728` and `4729` have been validated for ordinary global security-group membership changes. The next controlled phase is to repeat this workflow with the privileged **Domain Admins** group and investigate the resulting events in Wazuh.
+
 ### Example: User Creation
 
 A temporary test account was created in Active Directory. Windows generated Event ID `4720`, and Wazuh indexed it with the description:
@@ -295,7 +297,7 @@ The Proxmox lab is operational and integrated with pfSense and Wazuh. Host netwo
 
 ## Next Phase
 
-- Privileged Active Directory group monitoring
+- Controlled Domain Admins membership monitoring and investigation
 - Additional SOC-style investigations
 - Custom Wazuh rules
 - Expanded Linux monitoring
