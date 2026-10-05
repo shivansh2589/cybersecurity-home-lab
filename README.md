@@ -117,7 +117,7 @@ Full documentation is available here:
 - Enrolled Windows, Windows Server, Ubuntu, and Kali agents in Wazuh
 - Validated Windows failed and successful logon monitoring
 - Configured and tested real-time Windows File Integrity Monitoring
-- Validated Active Directory user creation, enable/disable, password reset, lockout/unlock, deletion, and group membership changes
+- Validated Active Directory user creation, enable/disable, password reset, lockout/unlock, deletion, and standard global security-group membership changes
 - Built a reusable Wazuh view for Windows Server / Active Directory security events
 - Performed a mini SOC investigation correlating repeated failed logons with an account lockout
 
@@ -138,6 +138,8 @@ The Windows Server 2022 domain controller was monitored through Wazuh and valida
 | 4729 | Member removed from global security group |
 | 4740 | User account locked out |
 | 4767 | User account unlocked |
+
+Events `4728` and `4729` have been verified for ordinary global security-group membership changes. The next lab phase is a controlled privileged-group test using **Domain Admins**, followed by Wazuh investigation of the resulting events.
 
 ## File Integrity Monitoring
 
@@ -225,7 +227,7 @@ The lab is operational with pfSense segmentation, Proxmox virtualization, Window
 
 Planned next work includes:
 
-- Privileged Active Directory group monitoring
+- Controlled privileged Active Directory group monitoring using Domain Admins
 - Additional SOC-style investigations
 - Custom Wazuh detection rules
 - Expanded Linux monitoring
