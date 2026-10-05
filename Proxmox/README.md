@@ -10,6 +10,46 @@ The goal is to create a realistic multi-system environment for practicing virtua
 
 The lab includes Proxmox VE, pfSense, Wazuh, Windows Server 2022, Ubuntu Server, Kali Linux, and Windows endpoints on the segmented cybersecurity network.
 
+## Network Recovery and Wazuh Integration — October 1–3, 2026
+
+### Proxmox build and VM foundation
+
+- Deployed Proxmox VE as the main virtualization platform on the isolated `192.168.10.0/24` lab network.
+- Configured the Proxmox host with static address `192.168.10.80/24` and gateway `192.168.10.1`.
+- Built Ubuntu Server, Wazuh Server, Kali Linux, and Windows Server 2022 virtual machines.
+- Confirmed the lab architecture could support Windows, Linux, SIEM, Active Directory, and security-testing workloads.
+
+### Network outage and troubleshooting
+
+A connectivity failure made the Proxmox host unreachable from other lab systems even though the host still showed its static IP configuration.
+
+Troubleshooting included:
+
+- Checking `ip route` and confirming the default route via `192.168.10.1` on `vmbr0`.
+- Reviewing `/etc/network/interfaces` and confirming `vmbr0` was configured for `192.168.10.80/24` with gateway `192.168.10.1`.
+- Inspecting the Linux bridge and physical NIC state with `bridge link show` and `ip addr`.
+- Identifying the physical NIC as down / unavailable in the live bridge path during the failure.
+- Bringing the physical interface up and validating its relationship to `vmbr0`.
+- Re-testing communication from Proxmox to pfSense and from the Windows management laptop to Proxmox.
+
+### Recovery validation
+
+The repair was verified by successful ICMP communication to the Proxmox host from the Windows management system with `0%` packet loss. The Proxmox web interface at `https://192.168.10.80:8006` became reachable again.
+
+Additional validation included:
+
+- pfSense gateway reachability at `192.168.10.1`.
+- pfSense DHCP/static-mapping review for lab systems.
+- Windows-to-Proxmox connectivity testing.
+- Proxmox host route and bridge verification.
+- Confirmation that the VM environment was available again after network recovery.
+
+### Wazuh integration
+
+After network recovery, Wazuh services and endpoint connectivity were validated across the Proxmox lab. Windows Server 2022, Ubuntu, Kali Linux, and Windows endpoints were used for centralized monitoring and subsequent security-event testing.
+
+This work demonstrates a complete troubleshooting cycle: observe symptoms, inspect Layer 2/Layer 3 configuration, isolate the bridge/NIC issue, restore communication, and verify application-level access.
+
 ## Active Directory Security Monitoring
 
 Windows Server 2022 was validated as an Active Directory Domain Controller with AD DS and DNS running. Wazuh was used to validate key Windows Security events, including successful and failed logons, account creation and deletion, password and lockout activity, and group-membership changes.
@@ -56,7 +96,10 @@ A Wazuh Threat Hunting view was saved to group important Windows Server and Acti
 ## Skills Demonstrated
 
 - Proxmox VE administration
+- Linux bridge and NIC troubleshooting
+- TCP/IP and static IP configuration
 - pfSense integration
+- Connectivity testing and recovery validation
 - Windows Server administration
 - Active Directory Domain Services
 - Privileged Active Directory group monitoring
