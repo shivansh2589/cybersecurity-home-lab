@@ -117,7 +117,10 @@ Full documentation is available here:
 - Enrolled Windows, Windows Server, Ubuntu, and Kali agents in Wazuh
 - Validated Windows failed and successful logon monitoring
 - Configured and tested real-time Windows File Integrity Monitoring
-- Validated Active Directory user creation, enable/disable, password reset, lockout/unlock, deletion, and standard global security-group membership changes
+- Validated Active Directory user creation, enable/disable, password reset, lockout/unlock, deletion, and global security-group membership changes
+- Validated privileged **Domain Admins** membership monitoring using a controlled test account
+- Verified Event ID `4728` when `PrivTest` was added to Domain Admins and Event ID `4729` when it was removed
+- Confirmed Wazuh captured the member, target group, actor (`Administrator`), domain (`HOMELAB`), and domain controller (`DC01.homelab.local`)
 - Built a reusable Wazuh view for Windows Server / Active Directory security events
 - Performed a mini SOC investigation correlating repeated failed logons with an account lockout
 
@@ -139,7 +142,13 @@ The Windows Server 2022 domain controller was monitored through Wazuh and valida
 | 4740 | User account locked out |
 | 4767 | User account unlocked |
 
-Events `4728` and `4729` have been verified for ordinary global security-group membership changes. The next lab phase is a controlled privileged-group test using **Domain Admins**, followed by Wazuh investigation of the resulting events.
+### Privileged Group Monitoring - Domain Admins
+
+A controlled account named `PrivTest` was created and temporarily added to the **Domain Admins** group. Wazuh detected Event ID `4728` and showed the target group as `Domain Admins`, the added member as `PrivTest`, the actor as `Administrator`, and the source system as `DC01.homelab.local`.
+
+The account was then removed from **Domain Admins**. Wazuh detected Event ID `4729` with the same privileged group context, confirming that both privileged membership additions and removals were visible through centralized monitoring.
+
+This test demonstrates practical monitoring of a high-impact Active Directory privilege change while keeping the activity controlled and reversible.
 
 ## File Integrity Monitoring
 
@@ -206,6 +215,7 @@ A major goal of this lab is developing a repeatable troubleshooting process:
 - Network segmentation and pfSense administration
 - Windows Server administration
 - Active Directory Domain Services
+- Privileged Active Directory group monitoring
 - DNS
 - PowerShell
 - Linux administration
@@ -221,13 +231,12 @@ A major goal of this lab is developing a repeatable troubleshooting process:
 
 ## Current Status
 
-The lab is operational with pfSense segmentation, Proxmox virtualization, Windows and Linux systems, centralized Wazuh monitoring, Windows Server / Active Directory event collection, real-time FIM, and a reusable AD security event view.
+The lab is operational with pfSense segmentation, Proxmox virtualization, Windows and Linux systems, centralized Wazuh monitoring, Windows Server / Active Directory event collection, real-time FIM, privileged Domain Admins membership monitoring, and a reusable AD security event view.
 
 ## Next Phase
 
 Planned next work includes:
 
-- Controlled privileged Active Directory group monitoring using Domain Admins
 - Additional SOC-style investigations
 - Custom Wazuh detection rules
 - Expanded Linux monitoring
