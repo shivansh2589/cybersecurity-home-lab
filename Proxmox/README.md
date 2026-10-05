@@ -4,7 +4,7 @@
 
 This project documents the build, troubleshooting, and security-monitoring validation of a Proxmox VE home lab integrated with pfSense and Wazuh.
 
-The goal is to create a realistic multi-system environment for practicing virtualization, network defense, Windows and Linux administration, Active Directory monitoring, endpoint security, and SOC-style investigations.
+The goal is to create a realistic multi-system environment for practicing virtualization, network defense, Windows and Linux administration, Active Directory monitoring, endpoint security, detection engineering, and SOC-style investigations.
 
 ## Architecture
 
@@ -81,6 +81,41 @@ The event details confirmed the changed member, the `Domain Admins` target group
 
 This validated centralized monitoring of high-impact Active Directory privilege changes through Wazuh Threat Hunting.
 
+## Custom Wazuh Detection and Email Alerting — October 5, 2026
+
+The privileged-group monitoring workflow was extended with a custom Wazuh child rule and email notification path.
+
+- Created custom Rule ID `100100` as a child of built-in rule `60159`.
+- Matched `Domain Admins` membership changes using `win.eventdata.targetUserName` with PCRE2.
+- Raised matching activity to **Wazuh Level 14**.
+- Used the alert description `CRITICAL: Privileged Domain Admins membership changed.`
+- Validated the rule with controlled Event IDs `4728` and `4729`.
+- Configured Postfix on the Wazuh server as a local mail relay.
+- Configured Gmail SMTP relay with TLS/SASL and a Google App Password.
+- Used `mailq` to diagnose an initial SASL authentication failure.
+- Confirmed a standalone Postfix test email before enabling Wazuh email notifications.
+- Triggered another controlled Domain Admins membership change and received a Wazuh email showing **Alert level 14**, Rule `100100`, Event ID `4728`, and the custom critical description.
+
+End-to-end workflow:
+
+```text
+Active Directory membership change
+        |
+Windows Security Event 4728 / 4729
+        |
+Wazuh built-in rule 60159
+        |
+Custom rule 100100 - Level 14
+        |
+Postfix relay
+        |
+Gmail notification
+```
+
+Detailed documentation:
+
+- [`custom-wazuh-domain-admin-alerting.md`](custom-wazuh-domain-admin-alerting.md)
+
 ## File Integrity Monitoring
 
 Real-time Windows File Integrity Monitoring was configured and validated. Wazuh detected file creation and file modification events and captured integrity hash data.
@@ -104,21 +139,25 @@ A Wazuh Threat Hunting view was saved to group important Windows Server and Acti
 - Active Directory Domain Services
 - Privileged Active Directory group monitoring
 - Wazuh SIEM/XDR administration
+- Wazuh custom rule development
 - Windows Security Event analysis
 - File Integrity Monitoring
 - Authentication and account-management monitoring
 - Event correlation
+- Postfix SMTP relay configuration
+- SASL/TLS troubleshooting
+- Alert notification workflow validation
 - SOC-style incident triage
 - Structured troubleshooting
 - Technical documentation
 
 ## Current Status
 
-The lab is operational with centralized Wazuh monitoring, Active Directory event collection, real-time FIM, privileged Domain Admins membership monitoring, and a reusable AD security-event workflow.
+The lab is operational with centralized Wazuh monitoring, Active Directory event collection, real-time FIM, privileged Domain Admins membership monitoring, a custom Level 14 Wazuh detection rule, Gmail email alerting through Postfix, and a reusable AD security-event workflow.
 
 ## Next Phase
 
 - Additional SOC-style investigations
-- Custom Wazuh detection rules
+- Expanded custom Wazuh detections
 - Expanded Linux monitoring
 - Additional attack/defense scenarios
