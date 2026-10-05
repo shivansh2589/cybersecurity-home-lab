@@ -1,201 +1,244 @@
 # Cybersecurity Home Lab
 
-This repository documents my hands-on cybersecurity home lab, including firewall deployment, network segmentation, troubleshooting, and practical security configuration.
+This repository documents my hands-on cybersecurity home lab, including firewall administration, network segmentation, virtualization, Windows and Linux systems, centralized security monitoring, Active Directory security events, and structured troubleshooting.
 
-The lab is designed to strengthen my skills in:
+The lab is designed to strengthen practical skills in:
 
-- Network security
-- Firewall administration
-- TCP/IP networking
-- Network segmentation
-- Access control
-- Troubleshooting
-- Security monitoring
-- Windows and Linux administration
-- Virtualization
-- Cloud-security integration
+- Network security and firewall administration
+- TCP/IP networking and segmentation
+- Virtualization with Proxmox VE
+- Windows Server and Active Directory
+- Linux administration
+- Wazuh SIEM/XDR monitoring
+- File Integrity Monitoring (FIM)
+- Authentication and account-management monitoring
+- SOC-style event investigation
+- Troubleshooting and documentation
 
-## Current Focus
+## Current Lab Focus
 
-The repository currently documents my **pfSense firewall project**, including:
+The environment currently includes two major documented projects:
 
-- pfSense installation
-- WAN and LAN configuration
-- Interface assignment
-- Firewall rules
-- NAT and routing concepts
-- Network troubleshooting
-- Access-control concepts
-- Physical and logical network verification
+1. **pfSense Firewall and Network Segmentation**
+2. **Proxmox Cybersecurity Home Lab with Wazuh and Active Directory Monitoring**
 
-Additional sections will be added as the home lab continues to develop.
+The Proxmox project now hosts Windows and Linux virtual machines and a dedicated Wazuh monitoring server on the segmented lab network.
 
 ## Current Lab Architecture
 
-The lab uses pfSense as the main firewall between the upstream home network and the cybersecurity lab environment.
-
 ```text
-Internet / Home Router
+Internet / Home Network
         |
         v
    pfSense Firewall
+ WAN: 192.168.0.15
+ LAN: 192.168.10.1
         |
         v
-    Lab Network
+Cybersecurity Lab - 192.168.10.0/24
         |
-        +-- Network Switch
-        +-- Wireless Access Point
-        +-- Windows Systems
-        +-- Linux Systems
-        +-- Virtualization Hosts
+        +-- Proxmox VE .............. 192.168.10.80
+        |    +-- Wazuh Server ....... 192.168.10.30
+        |    +-- Kali Linux ......... 192.168.10.60
+        |    +-- Ubuntu Server ...... 192.168.10.90
+        |    +-- Windows Server 2022
+        |    +-- Client VM
+        |
+        +-- Windows management systems
+        +-- Wireless lab access point
 ```
 
 ## Technologies
 
-Current and planned technologies used in the home lab include:
-
 - pfSense
+- Proxmox VE
+- Wazuh
+- Windows Server 2022
+- Active Directory Domain Services (AD DS)
+- DNS
+- Windows 11
+- Ubuntu Server
+- Kali Linux
+- PowerShell
+- Linux command line
+- SSH
+- UFW
 - TCP/IP
 - DHCP
 - NAT
 - Firewall Rules
 - Network Segmentation
-- Windows Server
-- Windows 11
-- Ubuntu Server
-- Kali Linux
-- PowerShell
-- SSH
-- UFW
+- File Integrity Monitoring
+- Windows Security Event Logs
 - Splunk
-- Wazuh
 - Microsoft Sentinel
 - Azure Arc
 - VMware Fusion
-- Proxmox VE
 
-## pfSense Project
+## Project 1 - pfSense Firewall and Network Segmentation
 
-The pfSense section documents the firewall deployment and configuration process.
+The pfSense project documents firewall deployment, WAN/LAN configuration, isolation rules, troubleshooting, and connectivity validation.
 
 ### Documentation
 
-- [`pfSense/README.md`](pfSense/README.md) — pfSense project overview
-- [`pfSense/installation.md`](pfSense/installation.md) — installation process
-- [`pfSense/wan-lan-setup.md`](pfSense/wan-lan-setup.md) — WAN and LAN configuration
-- [`pfSense/Firewall-rules.md`](pfSense/Firewall-rules.md) — firewall rule concepts and testing
-- [`pfSense/troubleshooting.md`](pfSense/troubleshooting.md) — troubleshooting issues and lessons learned
+- [`pfSense/README.md`](pfSense/README.md) - project overview
+- [`pfSense/installation.md`](pfSense/installation.md) - installation process
+- [`pfSense/wan-lan-setup.md`](pfSense/wan-lan-setup.md) - WAN and LAN configuration
+- [`pfSense/Firewall-rules.md`](pfSense/Firewall-rules.md) - firewall rules and testing
+- [`pfSense/troubleshooting.md`](pfSense/troubleshooting.md) - troubleshooting and lessons learned
 
-## Skills Practiced
+### Verified pfSense Skills
 
-Through this lab, I have practiced:
+- Installed and configured pfSense
+- Assigned WAN and LAN interfaces
+- Configured lab addressing and gateway settings
+- Implemented network isolation rules
+- Tested allowed and blocked traffic
+- Verified routing and gateway connectivity
+- Troubleshot interface and connectivity issues
+- Used structured troubleshooting instead of changing multiple settings at once
 
-- Installing and configuring pfSense
-- Assigning WAN and LAN interfaces
-- Working with USB Ethernet adapters
-- Configuring firewall rules
-- Understanding rule order
-- Testing allowed and blocked traffic
-- Verifying gateway connectivity
-- Working with NAT and routing concepts
-- Troubleshooting LAN connectivity
-- Troubleshooting interface-assignment issues
-- Testing connectivity with ping
-- Reviewing firewall behavior
-- Using a structured troubleshooting process
+## Project 2 - Proxmox Cybersecurity Home Lab
+
+The Proxmox project centralizes several cybersecurity systems on one virtualization host and integrates them with the existing pfSense-segmented lab network.
+
+Full documentation is available here:
+
+- [`Proxmox/README.md`](Proxmox/README.md)
+
+### Verified Proxmox and Wazuh Milestones
+
+- Deployed Proxmox VE and configured the host at `192.168.10.80`
+- Created Ubuntu Server, Kali Linux, Wazuh Server, Windows Server 2022, and client VMs
+- Restored a failed Proxmox bridge by identifying that the physical NIC was missing from the live `vmbr0` bridge
+- Reattached the physical interface, reloaded networking, and verified the fix survived a reboot
+- Validated gateway, Internet, and VM-to-VM communication
+- Verified Wazuh Manager, Indexer, and Dashboard services
+- Enrolled Windows, Windows Server, Ubuntu, and Kali agents in Wazuh
+- Validated Windows failed and successful logon monitoring
+- Configured and tested real-time Windows File Integrity Monitoring
+- Validated Active Directory user creation, enable/disable, password reset, lockout/unlock, deletion, and group membership changes
+- Built a reusable Wazuh view for Windows Server / Active Directory security events
+- Performed a mini SOC investigation correlating repeated failed logons with an account lockout
+
+## Active Directory Security Monitoring Evidence
+
+The Windows Server 2022 domain controller was monitored through Wazuh and validated against real Windows Security events.
+
+| Event ID | Activity |
+|---|---|
+| 4624 | Successful logon |
+| 4625 | Failed logon |
+| 4720 | User account created |
+| 4722 | User account enabled |
+| 4724 | Password reset attempt |
+| 4725 | User account disabled |
+| 4726 | User account deleted |
+| 4728 | Member added to global security group |
+| 4729 | Member removed from global security group |
+| 4740 | User account locked out |
+| 4767 | User account unlocked |
+
+## File Integrity Monitoring
+
+A dedicated Windows test directory was added to the Wazuh `syscheck` configuration for real-time monitoring.
+
+Validated events included:
+
+- File created - Wazuh Rule ID `554`
+- File modified / checksum changed - Wazuh Rule ID `550`
+- MD5, SHA1, and SHA256 integrity data captured
+
+## SOC-Style Investigation
+
+A controlled account-lockout scenario was used to practice event correlation.
+
+Investigation chain:
+
+```text
+4625 Failed Logon
+      |
+4625 Failed Logon
+      |
+4625 Failed Logon
+      |
+4740 Account Lockout
+```
+
+The investigation confirmed that repeated failed authentication attempts against the test account caused the lockout. Wazuh provided centralized visibility into both the authentication failures and the resulting lockout event.
+
+Assessment: authorized lab activity; no malicious activity identified.
+
+## Resource Management
+
+The Proxmox host has approximately 16 GB RAM. Running all VMs simultaneously pushed host memory above 90%, so VM usage was adjusted to keep the environment stable.
+
+A practical working combination is:
+
+- Wazuh Server
+- Ubuntu Server
+- Windows Server 2022
+
+Kali is started when needed for testing and stopped afterward to preserve memory headroom.
 
 ## Troubleshooting Approach
 
-A major goal of this lab is learning how to troubleshoot methodically.
+A major goal of this lab is developing a repeatable troubleshooting process:
 
-My general troubleshooting process is:
+1. Check physical connectivity and interface state
+2. Verify IP addressing and subnet configuration
+3. Confirm routing and gateway connectivity
+4. Validate bridge/interface membership
+5. Review firewall and access-control rules
+6. Check service status and logs
+7. Test host-to-host and VM-to-VM connectivity
+8. Make one change at a time
+9. Retest after each change
+10. Document the final cause and resolution
 
-1. Check power and physical connections
-2. Verify Ethernet cables and adapters
-3. Confirm WAN and LAN interface assignments
-4. Check IP addressing
-5. Verify gateway connectivity
-6. Check DHCP
-7. Review firewall rules
-8. Review NAT configuration
-9. Check logs
-10. Test connectivity
+## Skills Practiced
 
-This approach helps isolate basic connectivity problems before moving into more advanced firewall or network configuration.
-
-## Security Concepts Practiced
-
-The lab is also used to reinforce security principles such as:
-
-- Least privilege
-- Default deny
-- Network segmentation
-- Access control
-- Traffic filtering
-- Rule documentation
-- Secure administration
-- Layered troubleshooting
+- Proxmox VE administration
+- Virtual machine deployment and resource management
+- Linux bridge troubleshooting
+- Network segmentation and pfSense administration
+- Windows Server administration
+- Active Directory Domain Services
+- DNS
+- PowerShell
+- Linux administration
+- Wazuh SIEM/XDR administration
+- Endpoint enrollment and monitoring
+- Windows Security Event analysis
+- File Integrity Monitoring
+- Authentication monitoring
+- Active Directory account-management monitoring
+- Event correlation
+- SOC-style incident triage
+- Troubleshooting and technical documentation
 
 ## Current Status
 
-The pfSense firewall is installed and operational, and the repository currently contains documentation for the initial firewall build, WAN/LAN setup, firewall rules, and troubleshooting.
+The lab is operational with pfSense segmentation, Proxmox virtualization, Windows and Linux systems, centralized Wazuh monitoring, Windows Server / Active Directory event collection, real-time FIM, and a reusable AD security event view.
 
-The home lab is continuing to expand.
+## Next Phase
 
-## Planned Repository Sections
+Planned next work includes:
 
-Future documentation may include:
-
-```text
-cybersecurity-home-lab/
-├── README.md
-├── pfSense/
-│   ├── README.md
-│   ├── installation.md
-│   ├── wan-lan-setup.md
-│   ├── Firewall-rules.md
-│   └── troubleshooting.md
-├── Proxmox/
-├── Wazuh/
-├── Windows-Server/
-├── Linux/
-└── Cloud-Security/
-```
-
-## Upcoming Work
-
-Planned improvements include:
-
-- Expanding the Proxmox virtualization environment
-- Deploying additional Windows and Linux virtual machines
-- Rebuilding Wazuh in the virtualized lab
-- Adding more firewall testing
-- Adding project screenshots and evidence
-- Expanding network segmentation
-- Adding security-monitoring documentation
-- Adding Windows Server documentation
-- Adding Linux administration documentation
-- Adding Azure Arc and Microsoft Sentinel notes
+- Privileged Active Directory group monitoring
+- Additional SOC-style investigations
+- Custom Wazuh detection rules
+- Expanded Linux monitoring
+- Additional attack/defense scenarios
+- More screenshots and evidence
+- Azure Arc and Microsoft Sentinel integration notes
 
 ## Purpose
 
-This repository is a technical record of my ongoing cybersecurity learning and home-lab development.
+This repository is a technical record of my ongoing cybersecurity learning and home-lab development. It demonstrates practical work with network defense, firewalls, virtualization, Windows and Linux administration, centralized monitoring, Active Directory security, and structured troubleshooting.
 
-It is intended to demonstrate practical experience with:
+## Portfolio
 
-- Network defense
-- Firewall administration
-- Troubleshooting
-- Windows and Linux systems
-- Security monitoring
-- Virtualization
-- Cloud-security technologies
+Cybersecurity portfolio:
 
-## Related Portfolio
-
-My main Cyber & Cloud Security portfolio is available here:
-
-**GitHub:**  
-https://github.com/shivansh2589
-
-The portfolio repository contains a broader overview of my cybersecurity projects, certifications, skills, resume, and project evidence.
+https://cybersecurity-portfolio-bcu.pages.dev/
