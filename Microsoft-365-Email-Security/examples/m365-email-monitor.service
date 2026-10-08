@@ -1,0 +1,14 @@
+# Sanitized template; LAB_USER and paths must be adapted.
+# The monitor and its private local configuration are not included.
+[Unit]
+Description=Microsoft 365 Email Security Monitor
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=LAB_USER
+WorkingDirectory=/home/LAB_USER
+ExecStart=/home/LAB_USER/m365-monitor-venv/bin/python /home/LAB_USER/m365_monitor.py
+UMask=0077
+TimeoutStartSec=120

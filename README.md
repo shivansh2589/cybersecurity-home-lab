@@ -17,10 +17,11 @@ The lab is designed to strengthen practical skills in:
 
 ## Current Lab Focus
 
-The environment currently includes two major documented projects:
+The environment currently includes three major documented projects:
 
 1. **pfSense Firewall and Network Segmentation**
 2. **Proxmox Cybersecurity Home Lab with Wazuh and Active Directory Monitoring**
+3. **Microsoft 365 Email Security Monitoring**
 
 The Proxmox project now hosts Windows and Linux virtual machines and a dedicated Wazuh monitoring server on the segmented lab network.
 
@@ -123,6 +124,18 @@ Full documentation is available here:
 - Confirmed Wazuh captured the member, target group, actor (`Administrator`), domain (`HOMELAB`), and domain controller (`DC01.homelab.local`)
 - Built a reusable Wazuh view for Windows Server / Active Directory security events
 - Performed a mini SOC investigation correlating repeated failed logons with an account lockout
+
+## Project 3 - Microsoft 365 Email Security Monitoring
+
+Connected a personal Outlook mailbox to Microsoft Graph with a Python/MSAL monitor, delegated Mail.Read, local token reuse, message-ID deduplication, and five-minute systemd scheduling. Wazuh ingested JSONL email metadata and applied custom rules 100500 (Microsoft account security notifications, level 8), 100501 (high importance, level 6), and 100502 (phishing-style subjects, level 7).
+
+A real Gmail-to-Outlook lab email matched rule 100502 and was verified in Threat Hunting. This is hands-on home-lab work; the keyword rules are triage heuristics.
+
+- [Full documentation, sanitized examples, validation steps, and screenshots](Microsoft-365-Email-Security/README.md)
+
+### Achievement
+
+Built and validated an automated Outlook → Graph → Python/MSAL → Wazuh pipeline with deduplication, five-minute monitoring, three custom detection rules, and real mailbox-to-dashboard test evidence.
 
 ## Active Directory Security Monitoring Evidence
 

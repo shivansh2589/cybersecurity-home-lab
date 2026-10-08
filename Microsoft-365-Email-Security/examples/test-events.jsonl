@@ -1,0 +1,2 @@
+{"id":"synthetic-high-001","subject":"Lab high-importance test","sender":"security@example.com","receivedDateTime":"2026-10-08T17:27:00Z","importance":"high","isRead":false}
+{"id":"synthetic-phish-001","subject":"Urgent action required - verify account","sender":"security-check@example.com","receivedDateTime":"2026-10-08T17:40:00Z","importance":"normal","isRead":false}

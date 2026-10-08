@@ -1,0 +1,20 @@
+<!-- Documentation excerpt: recorded lab rules 100501 and 100502.
+     Append these groups to local_rules.xml only after checking for ID conflicts.
+     Rule 100500 (Microsoft account security notifications, level 8) is
+     documented in the README; its exact matcher is not reconstructed here. -->
+<group name="m365,email_security,high_importance,">
+  <rule id="100501" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="importance">high</field>
+    <description>High-importance Microsoft 365 email detected from $(sender): $(subject)</description>
+    <group>m365,email_security,high_importance,</group>
+  </rule>
+</group>
+<group name="m365,email_security,phishing_keywords,">
+  <rule id="100502" level="7">
+    <decoded_as>json</decoded_as>
+    <field name="subject" type="pcre2">(?i)(verify account|password reset|urgent action|security alert|suspicious activity|confirm your identity)</field>
+    <description>Potential phishing-style Microsoft 365 email detected from $(sender): $(subject)</description>
+    <group>m365,email_security,phishing_keywords,</group>
+  </rule>
+</group>

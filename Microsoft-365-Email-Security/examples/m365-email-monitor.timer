@@ -1,0 +1,11 @@
+# Sanitized example of five-minute scheduling, not an exact host export.
+[Unit]
+Description=Run Microsoft 365 Email Security Monitor every 5 minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Unit=m365-email-monitor.service
+
+[Install]
+WantedBy=timers.target

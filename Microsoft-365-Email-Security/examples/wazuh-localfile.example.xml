@@ -1,0 +1,6 @@
+<!-- Sanitized example: insert into the existing ossec_config element.
+     The collector must have read permission on the log and parent directories. -->
+<localfile>
+  <log_format>json</log_format>
+  <location>/home/LAB_USER/m365_email_events.jsonl</location>
+</localfile>

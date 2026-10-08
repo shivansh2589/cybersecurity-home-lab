@@ -1,0 +1,16 @@
+# Keep private runtime material out of the project.
+.env
+.env.*
+!.env.example
+config.json
+*token*
+*cache*
+*seen*
+*state*
+m365_email_events*
+*.log
+*.pem
+*.key
+__pycache__/
+*-venv/
+.venv/
