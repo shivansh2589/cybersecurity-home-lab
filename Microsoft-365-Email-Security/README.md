@@ -45,7 +45,7 @@ These are triage heuristics. A matching subject or high importance does not esta
 5. Configure Wazuh to collect the file as JSON. Install custom rules in `local_rules.xml`, validate with `wazuh-analysisd -t`, and restart the manager after validation passes.
 6. Configure a systemd oneshot service and a five-minute timer; enable the timer and inspect its status and service journal.
 
-The files in [examples/](examples/) are sanitized documentation examples, not exports of private host configuration. The original monitor, configuration, token cache, and deduplication database are deliberately excluded. Paths and service user names in the examples must be adapted locally. The rule example preserves the recorded 100501 and 100502 logic; 100500 is documented by purpose and evidence rather than an unverified reconstruction of its matcher.
+The files in [examples/](examples/) are sanitized documentation examples, not exports of private host configuration. The original monitor, configuration, token cache, and deduplication database are deliberately excluded. Paths and service user names in the examples must be adapted locally. The rule example preserves the recorded 100500, 100501, and 100502 logic. Rule 100500 matched the Microsoft account-security notification sender field; it did not verify sender authenticity.
 
 ## Validation steps
 

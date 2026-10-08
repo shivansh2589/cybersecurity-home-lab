@@ -1,7 +1,14 @@
-<!-- Documentation excerpt: recorded lab rules 100501 and 100502.
+<!-- Documentation excerpt: recorded lab rules 100500, 100501 and 100502.
      Append these groups to local_rules.xml only after checking for ID conflicts.
-     Rule 100500 (Microsoft account security notifications, level 8) is
-     documented in the README; its exact matcher is not reconstructed here. -->
+     Sender and subject matches are triage signals, not authenticity checks. -->
+<group name="m365,email_security,microsoft_account,">
+  <rule id="100500" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="sender">account-security-noreply@accountprotection.microsoft.com</field>
+    <description>Microsoft account security notification detected: $(subject)</description>
+    <group>m365,email_security,microsoft_account,</group>
+  </rule>
+</group>
 <group name="m365,email_security,high_importance,">
   <rule id="100501" level="6">
     <decoded_as>json</decoded_as>
