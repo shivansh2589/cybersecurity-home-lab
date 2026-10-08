@@ -17,11 +17,12 @@ The lab is designed to strengthen practical skills in:
 
 ## Current Lab Focus
 
-The environment currently includes three major documented projects:
+The environment currently includes four major documented projects:
 
 1. **pfSense Firewall and Network Segmentation**
 2. **Proxmox Cybersecurity Home Lab with Wazuh and Active Directory Monitoring**
 3. **Microsoft 365 Email Security Monitoring**
+4. **Kali–Wazuh SSH Detection and Defense**
 
 The Proxmox project now hosts Windows and Linux virtual machines and a dedicated Wazuh monitoring server on the segmented lab network.
 
@@ -136,6 +137,14 @@ A real Gmail-to-Outlook lab email matched rule 100502 and was verified in Threat
 ### Achievement
 
 Built and validated an automated Outlook → Graph → Python/MSAL → Wazuh pipeline with deduplication, five-minute monitoring, three custom detection rules, and real mailbox-to-dashboard test evidence.
+
+## Project 4 - Kali–Wazuh SSH Detection and Defense
+
+Validated controlled SSH authentication failures from Kali to Ubuntu on a dedicated Proxmox test bridge, traced journald events through Wazuh, and confirmed custom rule 100510 in both the manager alert file and dashboard. Disabled password authentication for the dedicated lab account, verified rejection without a password prompt, preserved management access, and removed the temporary firewall allowance.
+
+- [Full investigation, configuration examples, validation, and limitations](Kali-Wazuh-SSH-Lab/README.md)
+
+The historical architecture above describes the management network. During this scenario Kali moved to a dedicated test bridge; Ubuntu retained a management interface with forwarding disabled. Screenshot publication is pending redaction.
 
 ## Active Directory Security Monitoring Evidence
 
@@ -265,4 +274,4 @@ This repository is a technical record of my ongoing cybersecurity learning and h
 
 Cybersecurity portfolio:
 
-https://cybersecurity-portfolio-bcu.pages.dev/
+https://shivansh2589.github.io/cyberSecurity-portfolio/

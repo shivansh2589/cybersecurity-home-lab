@@ -1,0 +1,10 @@
+<!-- Documentation-only source address. Replace with your authorized lab source. -->
+<group name="syslog,sshd,ssh_lab,">
+  <rule id="100510" level="6">
+    <if_sid>5760</if_sid>
+    <srcip>192.0.2.10</srcip>
+    <user>^sshlab$</user>
+    <description>SSH lab: failed password for sshlab from Kali.</description>
+    <group>authentication_failed,</group>
+  </rule>
+</group>
