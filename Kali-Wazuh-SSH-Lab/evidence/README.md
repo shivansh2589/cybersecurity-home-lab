@@ -1,13 +1,19 @@
-# Evidence publication status
+# Published SSH lab evidence
 
-The lab results were verified from original terminal and dashboard screenshots during the session. Public image copies are pending reliable cropping and redaction; no generated or reconstructed screenshots are used.
+Two original screenshots were cropped and manually redacted, reviewed in the chat, and saved as PNG copies. Network addresses and the personal terminal username were covered. No generated or reconstructed screenshots are used.
 
-Planned evidence:
-- Baseline SSH failure and Wazuh built-in alerts.
-- Custom rule 100510 in the manager alert file and dashboard.
-- Effective account-specific SSH settings and service reload.
-- Password-only client rejection without a password prompt.
-- Server connection closure after hardening.
-- Successful management login and removal of the temporary firewall allowance.
+## 1. Custom alert in Threat Hunting
 
-Preserve timestamps, rule IDs, account scope, event descriptions, and before/after behavior. Redact personal identities, management addresses, browser context, and unrelated details. The configuration examples use documentation-only addresses.
+![Wazuh rule 100510, level 6](01-custom-ssh-alert-redacted.png)
+
+Shows the dedicated sshlab account, sshd decoding, custom rule 100510 at level 6, and the alert timestamp. The dashboard displays local time (UTC−05:00); 18:16:37.742 corresponds to 23:16:37.742 UTC in the manager alert. The predecoder timestamp is the server log time.
+
+## 2. Password authentication before and after hardening
+
+![Password-only SSH behavior before and after hardening](02-ssh-hardening-test-redacted.png)
+
+Earlier attempts show password prompts and `Permission denied (publickey,password)`. After account-specific hardening, the same command shows `Permission denied (publickey)` without a password prompt. The client clock includes its UTC−05:00 offset.
+
+## Scope
+
+These two published images support the custom-alert and client-behavior claims. Other configuration checks, manager logs, administrator-access verification, and firewall cleanup were inspected during the session and are described in the project write-up, but their screenshots are not included here. No successful key login or brute-force correlation threshold was demonstrated.
