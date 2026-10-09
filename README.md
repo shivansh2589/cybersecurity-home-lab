@@ -144,7 +144,7 @@ Validated controlled SSH authentication failures from Kali to Ubuntu on a dedica
 
 - [Full investigation, configuration examples, validation, and limitations](Kali-Wazuh-SSH-Lab/README.md)
 
-The historical architecture above describes the management network. During this scenario Kali moved to a dedicated test bridge; Ubuntu retained a management interface with forwarding disabled. Screenshot publication is pending redaction.
+The historical architecture above describes the management network. During this scenario Kali moved to a dedicated test bridge; Ubuntu retained a management interface with forwarding disabled. Redacted custom-alert and SSH before/after screenshots are included in the project documentation.
 
 ## Active Directory Security Monitoring Evidence
 
