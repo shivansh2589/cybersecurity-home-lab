@@ -118,9 +118,23 @@ UTC timestamps taken from observed server logs and alerts:
 | 23:23:45 | Repeat connection closed before authentication. |
 | Approximately 23:26 | Fresh administrator login demonstrated; firewall allowance subsequently removed. |
 
-## Evidence publication status
+## Published screenshot evidence
 
-Real screenshots were reviewed during the lab. **Sanitized image files are not yet included in this draft.** See [evidence/README.md](evidence/README.md) for the selected evidence and redaction requirements. No synthetic screenshots or fabricated output are used.
+These are cropped, manually redacted copies of original screenshots. IP addresses and the personal terminal username were covered; timestamps, rule details, and observed behavior remain visible. No synthetic output was added.
+
+### Custom Wazuh alert
+
+![Wazuh custom SSH authentication failure alert, rule 100510 at level 6](evidence/01-custom-ssh-alert-redacted.png)
+
+The dashboard shows the sshlab account, sshd decoder, rule 100510, level 6, and the alert timestamp. This confirms the real custom detection reached Threat Hunting.
+
+### Password-only SSH test before and after hardening
+
+![Kali password-only SSH attempts before and after account hardening](evidence/02-ssh-hardening-test-redacted.png)
+
+The earlier attempts offered a password prompt and ended with `Permission denied (publickey,password)`. The final identical password-only command ended with `Permission denied (publickey)` without a password prompt. This demonstrates removal of the password authentication path; it does not demonstrate successful key login.
+
+See [evidence/README.md](evidence/README.md) for evidence scope and timezone context.
 
 ## Lessons and limits
 
